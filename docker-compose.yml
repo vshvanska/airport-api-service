@@ -1,0 +1,24 @@
+version: '3.7'
+
+services:
+  web_airport_service:
+    restart: always
+    build: .
+    container_name: airport_api_service
+    command: ["/entrypoint.sh"]
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/app
+    depends_on:
+      - db
+
+  db:
+    image: 'postgres:14-alpine'
+    container_name: postgres_airport_service
+    env_file:
+      - .env
+    ports:
+      - "5433:5432"
